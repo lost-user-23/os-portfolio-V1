@@ -1,0 +1,38 @@
+export const PROJECTS = [
+  {
+    id: 'lost-found',
+    title: 'Lost & Found Portal',
+    description: 'AI-powered campus lost & found system with semantic matching, image uploads, and email notifications.',
+    tech: ['FastAPI', 'MongoDB', 'React', 'Claude API', 'Cloudinary', 'Resend'],
+    github: 'https://github.com/lost-user-23/Lost-Found',
+    live: null,
+    color: 'emerald',
+  },
+  {
+    id: 'event-booking',
+    title: 'Event Booking Platform',
+    description: 'Full-stack event platform with auth, RSVP/waitlist, Stripe payments, and email confirmations.',
+    tech: ['Next.js 14', 'MongoDB', 'NextAuth v5', 'Stripe', 'Resend'],
+    github: 'https://github.com/lost-user-23/event-booking',
+    live: null,
+    color: 'blue',
+  },
+  {
+    id: 'stitch-tool',
+    title: 'Stitch Design Automation',
+    description: 'Puppeteer-based automation tool with Claude API integration for generating design descriptions.',
+    tech: ['Node.js', 'Puppeteer', 'Claude API', 'Express'],
+    github: 'https://github.com/lost-user-23/stitch-tool',
+    live: null,
+    color: 'violet',
+  },
+  {
+    id: 'os-portfolio',
+    title: 'OS Portfolio',
+    description: 'This portfolio — a fake desktop OS UI with draggable windows, terminal, and easter eggs.',
+    tech: ['React', 'Vite', 'Framer Motion', 'Tailwind CSS'],
+    github: 'https://github.com/lost-user-23/os-portfolio',
+    live: '#',
+    color: 'orange',
+  },
+]
