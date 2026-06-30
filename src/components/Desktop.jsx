@@ -18,13 +18,7 @@ function Desktop({
   wallpaper, onWallpaperChange,
 }) {
 
-  const handleOpenWindow = (id) => {
-    if (id === 'resume') {
-      onOpenWindow(id)
-      return
-    }
-    onOpenWindow(id)
-  }
+  const handleOpenWindow = onOpenWindow
 
   return (
     <div className="h-screen w-screen relative overflow-hidden">
