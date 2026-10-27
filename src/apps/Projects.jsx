@@ -17,7 +17,7 @@ const badgeColor = {
 function Projects() {
   return (
     <div className="h-full flex flex-col gap-4 text-sm">
-      <p className="text-zinc-500 text-xs">
+      <p className="text-zinc-400 text-xs">
         {PROJECTS.length} projects · click links to open repo
       </p>
 
@@ -28,7 +28,7 @@ function Projects() {
             className={`rounded-xl border p-4 flex flex-col gap-2 ${colorMap[project.color]}`}
           >
             <div className="flex items-start justify-between gap-2">
-              <h3 className="font-semibold text-white text-sm">{project.title}</h3>
+              <h2 className="font-semibold text-white text-sm">{project.title}</h2>
               <div className="flex gap-2 shrink-0">
                 {project.github && (
                   <a
@@ -36,7 +36,6 @@ function Projects() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-zinc-400 hover:text-white transition-colors"
-                    onMouseDown={e => e.stopPropagation()}
                   >
                     GitHub ↗
                   </a>
@@ -47,7 +46,6 @@ function Projects() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-zinc-400 hover:text-white transition-colors"
-                    onMouseDown={e => e.stopPropagation()}
                   >
                     Live ↗
                   </a>

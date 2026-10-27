@@ -25,7 +25,7 @@ function Skills() {
 
     return (
         <div className="h-full flex flex-col gap-4 text-sm">
-            <p className="text-zinc-500 text-xs">
+            <p className="text-zinc-400 text-xs">
                 {SKILLS.reduce((acc, s) => acc + s.items.length, 0)} technologies across {SKILLS.length} categories
             </p>
             <div className="flex flex-col gap-3 overflow-auto">

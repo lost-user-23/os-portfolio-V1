@@ -1,12 +1,11 @@
-import React from 'react';
 import { PROJECTS } from '../data/projects';
 
 function MobileFallback() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-200 px-5 py-8 flex flex-col gap-6">
+    <main className="min-h-screen bg-zinc-950 text-zinc-200 px-5 py-8 flex flex-col gap-6">
       {/* Banner */}
       <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-sm text-emerald-400">
-        🖥️ This portfolio is an interactive desktop OS — best experienced on a laptop or desktop browser. Here's a quick summary for mobile.
+        🖥️ This portfolio is an interactive desktop OS, best experienced on a laptop or desktop browser. Here's a quick summary for mobile.
       </div>
 
       {/* About */}
@@ -20,7 +19,7 @@ function MobileFallback() {
         </div>
       </div>
       <p className="text-zinc-400 text-sm leading-relaxed -mt-2">
-        3rd year CS student at JECRC University building real products — not just coursework.
+        3rd year CS student at JECRC University building real products, not just coursework.
         Full-stack development with React, Node.js, and FastAPI, focused on shipping AI-integrated applications.
       </p>
 
@@ -31,7 +30,7 @@ function MobileFallback() {
           {PROJECTS.map(p => (
             <div key={p.id} className="bg-zinc-900/60 border border-zinc-700/40 rounded-xl p-4">
               <h3 className="text-white text-sm font-medium">{p.title}</h3>
-              <p className="text-zinc-500 text-xs mt-1 leading-relaxed">{p.description}</p>
+              <p className="text-zinc-400 text-xs mt-1 leading-relaxed">{p.description}</p>
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {p.tech.map(t => (
                   <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 font-mono">
@@ -40,7 +39,7 @@ function MobileFallback() {
                 ))}
               </div>
               {p.github && (
-                <a // <-- Added the missing opening tag back here
+                <a
                   href={p.github}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -61,7 +60,7 @@ function MobileFallback() {
         <a href="https://github.com/lost-user-23" target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm">🐙 github.com/lost-user-23</a>
         <a href="https://linkedin.com/in/shourya-mathur-4820b0383" target="_blank" rel="noopener noreferrer" className="text-zinc-400 text-sm">💼 LinkedIn</a>
         
-        <a // <-- Added the missing opening tag back here
+        <a
           href="/Resume.pdf"
           download="Shourya_Mathur_Resume.pdf"
           className="mt-2 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm font-medium w-fit"
@@ -69,7 +68,7 @@ function MobileFallback() {
           ⬇ Download Resume
         </a>
       </div>
-    </div>
+    </main>
   )
 }
 
