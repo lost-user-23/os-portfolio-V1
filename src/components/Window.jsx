@@ -151,7 +151,7 @@ function Window({
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-auto p-4 text-zinc-200">
+      <div className="flex-1 overflow-auto p-4 text-zinc-200 select-text">
         {children}
       </div>
 

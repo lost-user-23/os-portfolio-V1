@@ -55,6 +55,14 @@
     user-select: none;
   }
 
+  /* The desktop chrome is not selectable, but text you type or might want to
+     copy is. Safari refuses typing in an input that inherits user-select: none. */
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
   /* Visible keyboard focus. Mouse clicks do not trigger focus-visible. */
   :focus-visible {
     outline: 2px solid rgba(52, 211, 153, 0.8);

@@ -164,7 +164,7 @@ function Terminal() {
           onChange={e => { setInput(e.target.value); setHistoryIndex(-1) }}
           onKeyDown={handleKeyDown}
           autoFocus
-          className="flex-1 bg-transparent text-emerald-400 outline-none caret-emerald-400 placeholder-zinc-500"
+          className="flex-1 bg-transparent text-emerald-400 select-text outline-none caret-emerald-400 placeholder-zinc-500"
           placeholder="type a command..."
           spellCheck={false}
         />
