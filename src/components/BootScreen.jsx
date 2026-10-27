@@ -1,11 +1,30 @@
+import { useCallback, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 function BootScreen({ onComplete }) {
+  const finished = useRef(false)
+
+  const finish = useCallback(() => {
+    if (finished.current) return
+    finished.current = true
+    onComplete()
+  }, [onComplete])
+
+  // Any click or key press skips the animation
+  useEffect(() => {
+    window.addEventListener('keydown', finish)
+    window.addEventListener('pointerdown', finish)
+    return () => {
+      window.removeEventListener('keydown', finish)
+      window.removeEventListener('pointerdown', finish)
+    }
+  }, [finish])
+
   return (
-    <motion.div
+    <motion.main
       className="h-screen w-screen bg-zinc-950 flex flex-col items-center justify-center gap-8"
       exit={{ opacity: 0, scale: 1.02 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      transition={{ duration: 0.35, ease: 'easeInOut' }}
     >
       {/* Logo monogram */}
       <motion.div
@@ -24,7 +43,7 @@ function BootScreen({ onComplete }) {
         className="text-4xl sm:text-5xl font-bold text-white tracking-tight font-sans"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
       >
         ShouryaOS-V1.0
       </motion.h1>
@@ -34,28 +53,28 @@ function BootScreen({ onComplete }) {
         className="w-52 h-1 bg-zinc-800/80 rounded-full overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.3 }}
+        transition={{ delay: 0.4, duration: 0.3 }}
       >
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
           style={{ boxShadow: '0 0 12px rgba(52, 211, 153, 0.5)' }}
           initial={{ width: '0%' }}
           animate={{ width: '100%' }}
-          transition={{ delay: 1.1, duration: 2, ease: 'easeInOut' }}
-          onAnimationComplete={onComplete}
+          transition={{ delay: 0.5, duration: 0.9, ease: 'easeInOut' }}
+          onAnimationComplete={finish}
         />
       </motion.div>
 
       {/* Loading text */}
       <motion.p
-        className="text-zinc-600 text-xs font-mono tracking-wider"
+        className="text-zinc-400 text-xs font-mono tracking-wider"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.3 }}
+        transition={{ delay: 0.6, duration: 0.3 }}
       >
         loading desktop environment...
       </motion.p>
-    </motion.div>
+    </motion.main>
   )
 }
 
