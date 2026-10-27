@@ -4,6 +4,7 @@ export const WALLPAPERS = [
     name: 'Green Fields',
     type: 'video',
     src: '/wallpapers/green-fields.mp4',
+    poster: '/wallpapers/green-fields.webp',
     thumbnail: 'linear-gradient(135deg, #134e1c 0%, #1a6b2a 50%, #2d9e45 100%)',
   },
   {
@@ -17,6 +18,7 @@ export const WALLPAPERS = [
     name: 'Night Sky',
     type: 'video',
     src: '/wallpapers/night-sky.mp4',
+    poster: '/wallpapers/night-sky.webp',
     thumbnail: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
   },
 ]

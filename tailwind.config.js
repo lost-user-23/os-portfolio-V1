@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+        sans: ['Inter Variable', 'Inter Fallback', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono Variable', 'JetBrains Mono Fallback', 'Menlo', 'monospace'],
       },
       animation: {
         'wallpaper': 'wallpaperShift 20s ease-in-out infinite alternate',

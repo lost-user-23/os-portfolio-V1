@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Self-hosted variable fonts, latin subset only. One file per family covers
+   every weight. The browser downloads a family only when text uses it. */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+/* Arial, resized to occupy the same space as Inter. While Inter loads, text is
+   laid out almost exactly as it will be, so the swap does not shift the page. */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.4%;
+  ascent-override: 90.2%;
+  descent-override: 22.48%;
+  line-gap-override: 0%;
+}
+/* Same idea for mono. Courier New has the same 0.6em advance width, so only the
+   vertical metrics need matching. */
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  ascent-override: 102%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url('../node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
 /*  Base reset & fonts  */
 @layer base {
   * {
@@ -10,11 +48,23 @@
   }
 
   body {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Inter Variable', 'Inter Fallback', system-ui, sans-serif;
     margin: 0;
     padding: 0;
     background: #09090b;
     user-select: none;
+  }
+
+  /* Visible keyboard focus. Mouse clicks do not trigger focus-visible. */
+  :focus-visible {
+    outline: 2px solid rgba(52, 211, 153, 0.8);
+    outline-offset: 2px;
+  }
+
+  /* Embedded documents steal pointer events mid-drag, so switch them off */
+  html.is-interacting iframe,
+  html.is-interacting object {
+    pointer-events: none;
   }
 
   /* Custom selection color */
@@ -23,7 +73,7 @@
     color: #fff;
   }
 
-  /* Scrollbar — thin macOS-style */
+  /* Scrollbar: thin macOS-style */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -75,8 +125,8 @@
 
   .glass-heavy {
     background: rgba(24, 24, 27, 0.82);
-    backdrop-filter: blur(40px) saturate(1.8);
-    -webkit-backdrop-filter: blur(40px) saturate(1.8);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
@@ -117,5 +167,19 @@
   /*  Context menu  */
   .context-menu {
     animation: contextIn 0.15s ease-out;
+  }
+}
+
+/* Honor the OS "reduce motion" setting for the CSS-driven animations.
+   Framer Motion animations are handled by MotionConfig in App. */
+@media (prefers-reduced-motion: reduce) {
+  .desktop-wallpaper,
+  .animate-pulse,
+  .context-menu {
+    animation: none;
+  }
+  .dock-item,
+  .dock-item:hover {
+    transition: none;
   }
 }
