@@ -7,4 +7,5 @@ export const WINDOWS_CONFIG = [
   { id: 'wallpapers', title: 'Wallpapers', icon: '🖼️' },
   { id: 'resume',     title: 'Resume.pdf', icon: '📄' },
 ]
-const DEFAULT_SIZE = { width: 680, height: 520 }
+
+export const DEFAULT_SIZE = { width: 680, height: 520 }
