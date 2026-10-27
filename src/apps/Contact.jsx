@@ -1,3 +1,5 @@
+import { AVAILABILITY } from '../data/profile'
+
 function Contact() {
   const links = [
     {
@@ -38,12 +40,11 @@ function Contact() {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            onMouseDown={e => e.stopPropagation()}
             className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/60 border border-zinc-700/40 hover:border-zinc-500/60 hover:bg-zinc-800/60 transition-all group"
           >
             <span className="text-2xl">{link.icon}</span>
             <div>
-              <p className="text-zinc-500 text-xs">{link.label}</p>
+              <p className="text-zinc-400 text-xs">{link.label}</p>
               <p className="text-zinc-200 text-xs font-medium group-hover:text-white transition-colors">
                 {link.value}
               </p>
@@ -56,7 +57,7 @@ function Contact() {
       {/* Availability badge */}
       <div className="mt-auto flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        <p className="text-emerald-400 text-xs font-medium">Available for internships — Summer 2026</p>
+        <p className="text-emerald-400 text-xs font-medium">{AVAILABILITY}</p>
       </div>
     </div>
   )
