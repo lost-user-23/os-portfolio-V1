@@ -1,3 +1,5 @@
+import { AVAILABILITY } from '../data/profile'
+
 function About() {
   return (
     <div className="h-full flex flex-col gap-6 text-sm">
@@ -14,7 +16,7 @@ function About() {
 
       {/* Bio */}
       <p className="text-zinc-400 leading-relaxed">
-        3rd year CS student at JECRC University building real products — not just coursework. 
+        3rd year CS student at JECRC University building real products, not just coursework. 
         I specialize in full-stack development with React, Node.js, and FastAPI, with a focus 
         on shipping AI-integrated applications at the product level.
       </p>
@@ -25,10 +27,10 @@ function About() {
           { label: 'University', value: 'JECRC University' },
           { label: 'Degree', value: 'B.Tech CSE' },
           { label: 'Focus', value: 'Full Stack + AI' },
-          { label: 'Status', value: '🟢 Open to internships' },
+          { label: 'Status', value: `🟢 ${AVAILABILITY}` },
         ].map(({ label, value }) => (
           <div key={label} className="bg-zinc-900/60 rounded-lg p-3 border border-zinc-700/40">
-            <p className="text-zinc-500 text-xs mb-1">{label}</p>
+            <p className="text-zinc-400 text-xs mb-1">{label}</p>
             <p className="text-zinc-200 text-xs font-medium">{value}</p>
           </div>
         ))}

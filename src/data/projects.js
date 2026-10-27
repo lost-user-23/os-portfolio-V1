@@ -29,7 +29,7 @@ export const PROJECTS = [
   {
     id: 'os-portfolio',
     title: 'OS Portfolio',
-    description: 'This portfolio — a fake desktop OS UI with draggable windows, terminal, and easter eggs.',
+    description: 'This portfolio: a fake desktop OS UI with draggable windows, terminal, and easter eggs.',
     tech: ['React', 'Vite', 'Framer Motion', 'Tailwind CSS'],
     github: 'https://github.com/lost-user-23/os-portfolio',
     live: '#',
