@@ -23,31 +23,34 @@ function Taskbar({ openWindows, onIconClick }) {
     day: 'numeric',
   })
 
-  const openIds = new Set(openWindows.map(w => w.id))
+  const openById = new Map(openWindows.map(w => [w.id, w]))
 
   return (
     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[9990]">
       <div className="glass-dock rounded-2xl px-4 py-2 flex gap-2">
         {/* App icons */}
         {WINDOWS_CONFIG.map(win => {
-          const isOpen = openIds.has(win.id)
+          const state = openById.get(win.id)
+          const isOpen = Boolean(state)
+          const isMinimized = Boolean(state?.minimized)
           return (
             <div key={win.id} className="relative group">
               {/* Tooltip */}
-              <div className="absolute -top-9 left-1/2 -translate-x-1/2 glass-heavy rounded-lg px-2.5 py-1 text-[10px] text-zinc-200 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap">
+              <div className="absolute -top-9 left-1/2 -translate-x-1/2 glass-heavy rounded-lg px-2.5 py-1 text-[10px] text-zinc-200 font-medium opacity-0 group-hover:opacity-100 group-has-[:focus-visible]:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap">
                 {win.title}
               </div>
 
               <button
                 onClick={() => onIconClick(win.id)}
+                aria-label={isMinimized ? `${win.title} (minimized)` : win.title}
                 className="dock-item w-14 h-14 rounded-xl flex items-center justify-center text-2xl hover:bg-white/[0.08] active:bg-white/[0.12] transition-colors cursor-default"
               >
-                {win.icon}
+                <span aria-hidden="true">{win.icon}</span>
               </button>
 
               {/* Active indicator dot */}
               {isOpen && (
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-zinc-300" />
+                <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${isMinimized ? 'bg-zinc-500' : 'bg-zinc-300'}`} />
               )}
             </div>
           )
@@ -73,7 +76,7 @@ function Taskbar({ openWindows, onIconClick }) {
           {/* Clock */}
           <div className="text-right ml-1 cursor-default select-none">
             <p className="text-[12px] text-zinc-300 font-medium leading-tight">{timeStr}</p>
-            <p className="text-[10px] text-zinc-500 leading-tight">{dateStr}</p>
+            <p className="text-[10px] text-zinc-400 leading-tight">{dateStr}</p>
           </div>
         </div>
       </div>
