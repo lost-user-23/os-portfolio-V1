@@ -24,10 +24,10 @@ const COMMANDS = {
     '> AI/Tools  → Claude, Puppeteer, Stripe, Git, GitHub,ChatGPT',
   ],
   projects: () => [
-    '> Lost & Found Portal    — FastAPI + React + Claude API',
-    '> Event Booking Platform — Next.js 14 + Stripe + MongoDB',
-    '> Stitch Automation Tool — Puppeteer + Claude API',
-    '> OS Portfolio           — React + Framer Motion (you are here)',
+    '> Lost & Found Portal    - FastAPI + React + Claude API',
+    '> Event Booking Platform - Next.js 14 + Stripe + MongoDB',
+    '> Stitch Automation Tool - Puppeteer + Claude API',
+    '> OS Portfolio           - React + Framer Motion (you are here)',
   ],
   contact: () => [
     '> Email    → shourya06175@gmail.com',
@@ -38,7 +38,7 @@ const COMMANDS = {
     '> Loading reasons...',
     '',
     '  ✓ Ships real products with actual users',
-    '  ✓ Full stack — frontend to backend to deployment',
+    '  ✓ Full stack, frontend to backend to deployment',
     '  ✓ AI integration experience at product level',
     '  ✓ Learns by building, not just watching tutorials',
     '  ✓ You are literally reading this in a portfolio',
@@ -53,47 +53,56 @@ const BOOT_LINES = [
   '',
 ]
 
+const MAX_LINES = 500
+
 let lineCounter = 0
 
+const makeLine = (type, text) => ({ id: ++lineCounter, type, text })
+const bootHistory = () => BOOT_LINES.map(line => makeLine('output', line))
+// keep the most recent lines only, so a long session cannot grow without bound
+const capped = (lines) => lines.slice(-MAX_LINES)
+
 function Terminal() {
-  const [history, setHistory] = useState(() =>
-    BOOT_LINES.map(line => ({ id: ++lineCounter, type: 'output', text: line }))
-  )
+  const [history, setHistory] = useState(bootHistory)
   const [input, setInput] = useState('')
   const [cmdHistory, setCmdHistory] = useState([])
   const [historyIndex, setHistoryIndex] = useState(-1)
-  const bottomRef = useRef(null)
+  const outputRef = useRef(null)
   const inputRef = useRef(null)
 
+  // Scroll only the output box. scrollIntoView would also scroll any
+  // overflow:hidden ancestor, which shifts the whole desktop.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = outputRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [history])
 
-  const handleCommand = useCallback((cmd) => {
-    const trimmed = cmd.trim().toLowerCase()
-    const newLines = [{ id: ++lineCounter, type: 'input', text: `$ ${cmd}` }]
+  const handleCommand = useCallback((raw) => {
+    const typed = raw.trim()
+    const key = typed.toLowerCase()
+    const echo = makeLine('input', `$ ${raw}`)
 
-    if (trimmed === 'clear') {
-      setHistory(BOOT_LINES.map(line => ({ id: ++lineCounter, type: 'output', text: line })))
+    if (key === 'clear') {
+      setHistory(bootHistory())
       setInput('')
       return
     }
 
-    if (trimmed === '') {
-      setHistory(prev => [...prev, ...newLines])
+    if (key === '') {
+      setHistory(prev => capped([...prev, echo]))
       setInput('')
       return
     }
 
-    if (COMMANDS[trimmed]) {
-      const output = COMMANDS[trimmed]().map(line => ({ id: ++lineCounter, type: 'output', text: line }))
-      setHistory(prev => [...prev, ...newLines, ...output, { id: ++lineCounter, type: 'output', text: '' }])
+    if (Object.hasOwn(COMMANDS, key)) {
+      const output = COMMANDS[key]().map(line => makeLine('output', line))
+      setHistory(prev => capped([...prev, echo, ...output, makeLine('output', '')]))
     } else {
-      newLines.push({ id: ++lineCounter, type: 'error', text: `command not found: ${trimmed}. Type "help" for available commands.` })
-      setHistory(prev => [...prev, ...newLines, { id: ++lineCounter, type: 'output', text: '' }])
+      const error = makeLine('error', `command not found: ${typed}. Type "help" for available commands.`)
+      setHistory(prev => capped([...prev, echo, error, makeLine('output', '')]))
     }
 
-    setCmdHistory(prev => [trimmed, ...prev])
+    setCmdHistory(prev => [typed, ...prev])
     setHistoryIndex(-1)
     setInput('')
   }, [])
@@ -103,12 +112,10 @@ function Terminal() {
       handleCommand(input)
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setCmdHistory(prev => {
-        const nextIndex = Math.min(historyIndex + 1, prev.length - 1)
-        setHistoryIndex(nextIndex)
-        setInput(prev[nextIndex] ?? '')
-        return prev
-      })
+      if (cmdHistory.length === 0) return
+      const nextIndex = Math.min(historyIndex + 1, cmdHistory.length - 1)
+      setHistoryIndex(nextIndex)
+      setInput(cmdHistory[nextIndex])
     } else if (e.key === 'ArrowDown') {
       e.preventDefault()
       const nextIndex = Math.max(historyIndex - 1, -1)
@@ -121,7 +128,6 @@ function Terminal() {
     <div
       className="h-full rounded-b-xl font-mono text-xs flex flex-col cursor-text relative overflow-hidden"
       onClick={() => inputRef.current?.focus()}
-      onMouseDown={e => e.stopPropagation()}
       style={{ background: '#0c0c0c' }}
     >
       {/* Subtle scan-line overlay */}
@@ -134,20 +140,19 @@ function Terminal() {
       />
 
       {/* Output history */}
-      <div className="flex-1 overflow-auto flex flex-col gap-0.5 p-3 relative z-20">
+      <div ref={outputRef} className="flex-1 overflow-auto flex flex-col gap-0.5 p-3 relative z-20">
         {history.map((line) => (
           <p
             key={line.id}
-            className={
+            className={`break-words ${
               line.type === 'input' ? 'text-emerald-400' :
                 line.type === 'error' ? 'text-red-400' :
-                  'text-zinc-500'
-            }
+                  'text-zinc-400'
+            }`}
           >
             {line.text || '\u00A0'}
           </p>
         ))}
-        <div ref={bottomRef} />
       </div>
 
       {/* Input line */}
@@ -156,11 +161,10 @@ function Terminal() {
         <input
           ref={inputRef}
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={e => { setInput(e.target.value); setHistoryIndex(-1) }}
           onKeyDown={handleKeyDown}
-          onMouseDown={e => e.stopPropagation()}
           autoFocus
-          className="flex-1 bg-transparent text-emerald-400 outline-none caret-emerald-400 placeholder-zinc-700"
+          className="flex-1 bg-transparent text-emerald-400 outline-none caret-emerald-400 placeholder-zinc-500"
           placeholder="type a command..."
           spellCheck={false}
         />
